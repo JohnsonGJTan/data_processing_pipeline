@@ -1,4 +1,4 @@
-# DataProcessingPipeline: A Declarative Data Preprocessing Library
+# dataprocessingpipeline: A Declarative Data Preprocessing Library
 
 [![Python 3.9+](https://img.shields.io/badge/python-3.9+-blue.svg)](https://www.python.org/downloads/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
@@ -34,7 +34,7 @@ Here's how to build, fit, transform, and save a pipeline.
 
 ```python
 import pandas as pd
-from DataProcessingPipeline import DataPipe, DataPipeline
+from dataprocessingpipeline import DataPipe, DataPipeline
 
 # 1. Sample Data
 train_data = pd.DataFrame({
@@ -54,7 +54,6 @@ test_data = pd.DataFrame({
 test_data['city'] = test_data['city'].astype('category')
 test_data['rating'] = pd.Categorical(test_data['rating'], categories=['low', 'medium', 'high'], ordered=True)
 
-
 # 2. Define the Pipeline Steps
 pipeline_steps = [
     DataPipe('num_impute', {'col_name': 'age', 'method': 'median'}),
@@ -71,7 +70,6 @@ transformed_data = pipeline.transform(test_data)
 
 print("--- Transformed Test Data ---")
 print(transformed_data)
-
 
 # 5. Save and Load the Fitted Pipeline
 pipeline.save('my_fitted_pipeline.joblib')
