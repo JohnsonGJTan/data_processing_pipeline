@@ -3,7 +3,7 @@ import copy
 
 import pandas as pd
 
-from ..utils import is_sub_with_gap
+from .utils import is_sub_with_gap
 
 class DataSchema:
 
