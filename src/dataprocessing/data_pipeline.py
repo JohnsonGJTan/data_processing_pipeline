@@ -2,14 +2,15 @@ import inspect
 from typing import Self, Optional
 from functools import partial
 import pathlib
-import joblib
 import json
 
+import joblib
 import pandas as pd
 
 from . import data_processes
 from .data_processes import ProcessOutput
 from .data_schema import DataSchema, data_schema_validate
+from .utils import str_to_path
 
 
 class DataPipe:
@@ -138,16 +139,14 @@ class DataPipeline:
             raise RuntimeError("Only fitted fitted pipelines can be saved.")
 
         # TODO: need to make this more secure...
-        if isinstance(save_path, str):
-            save_path = pathlib.Path(save_path)
+        save_path = str_to_path(save_path)
 
         with save_path.open('wb') as f:
             joblib.dump(self, f)
 
     @classmethod
     def load(cls, load_path: str | pathlib.Path):
-        if isinstance(load_path, str):
-            load_path = pathlib.Path(load_path)
+        load_path = str_to_path(load_path)
         
         with load_path.open('rb') as f:
             return joblib.load(f)

@@ -1,5 +1,5 @@
 import pandas as pd
-from dataprocessingpipeline import DataPipe, DataPipeline
+from dataprocessing import DataPipe, DataPipeline
 
 # 1. Sample Data
 train_data = pd.DataFrame({

@@ -1,9 +1,9 @@
-# dataprocessingpipeline: A Declarative Data Preprocessing Library
+# dataprocessing: A Declarative Data Preprocessing Library
 
 [![Python 3.9+](https://img.shields.io/badge/python-3.9+-blue.svg)](https://www.python.org/downloads/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-DataProcessingPipeline is a lightweight, intuitive Python library for building clear, reusable, and serializable data preprocessing pipelines for machine learning. It's designed to bring clarity and reproducibility to your feature engineering workflow by combining a declarative API with robust data schema management.
+dataprocessing is a lightweight, intuitive Python library for building clear, reusable, and serializable data preprocessing pipelines for machine learning. It's designed to bring clarity and reproducibility to your feature engineering workflow by combining a declarative API with robust data schema management.
 
 ## Key Features
 
@@ -17,7 +17,7 @@ DataProcessingPipeline is a lightweight, intuitive Python library for building c
 
 ```bash
 # Clone the repository and install locally in editable mode
-git clone [https://github.com/JohnsonGJTan/data_processing_pipeline.git](https://github.com/JohnsonGJTan/data_processing_pipeline.git)
+git clone [https://github.com/JohnsonGJTan/dataprocessing.git](https://github.com/JohnsonGJTan/dataprocessing.git)
 cd data_processing_pipeline
 pip install -e .
 ```
@@ -34,7 +34,7 @@ Here's how to build, fit, transform, and save a pipeline.
 
 ```python
 import pandas as pd
-from dataprocessingpipeline import DataPipe, DataPipeline
+from dataprocessing import DataPipe, DataPipeline
 
 # 1. Sample Data
 train_data = pd.DataFrame({

@@ -1,6 +1,6 @@
 import pytest
 import pandas as pd
-from dataprocessingpipeline.data_schema import DataSchema 
+from dataprocessing import DataSchema
 
 @pytest.fixture
 def base_dataframe():
