@@ -1,6 +1,6 @@
 import pytest
 import pandas as pd
-from DataProcessingPipeline import DataSchema
+from DataProcessingPipeline.data_schema import DataSchema
 
 @pytest.fixture
 def base_dataframe():
@@ -24,9 +24,9 @@ def base_dataframe():
 def base_schema():
     """A standard, reusable DataSchema instance."""
     return DataSchema(
-        numerical={'age', 'income'},
-        unordered={'city': {'london', 'paris'}},
-        ordered={'rating': ['low', 'medium', 'high']}
+        continuous={'age', 'income'},
+        nominal={'city': {'london', 'paris'}},
+        ordinal={'rating': ['low', 'medium', 'high']}
     )
 
 class TestDataSchema:
@@ -35,41 +35,41 @@ class TestDataSchema:
     def equal_schema(self):
         """A schema identical to base_schema for equality checks."""
         return DataSchema(
-            numerical={'age', 'income'},
-            unordered={'city': {'london', 'paris'}},
-            ordered={'rating': ['low', 'medium', 'high']}
+            continuous={'age', 'income'},
+            nominal={'city': {'london', 'paris'}},
+            ordinal={'rating': ['low', 'medium', 'high']}
         )
 
     @pytest.fixture
     def num_append_base_schema(self):
-        """base_schema appended with numerical column"""
+        """base_schema appended with continuous column"""
         return DataSchema(
-            numerical={'age', 'income', 'expenses'},
-            unordered={'city': {'london', 'paris'}},
-            ordered={'rating': ['low', 'medium', 'high']}
+            continuous={'age', 'income', 'expenses'},
+            nominal={'city': {'london', 'paris'}},
+            ordinal={'rating': ['low', 'medium', 'high']}
         )
 
     @pytest.fixture
     def unord_append_base_schema(self):
-        """base_schema appended with unordered categorical column"""
+        """base_schema appended with nominal categorical column"""
         return DataSchema(
-            numerical = {'age', 'income'},
-            unordered = {
+            continuous = {'age', 'income'},
+            nominal = {
                 'city': {'london', 'paris'},
                 'ethnicity': {'asian', 'caucasian', 'hispanic'},
             },
-            ordered={'rating': ['low', 'medium', 'high']}
+            ordinal={'rating': ['low', 'medium', 'high']}
         )
 
     @pytest.fixture
     def ord_append_base_schema(self):
-        """base_schema appended with unordered categorical column"""
+        """base_schema appended with nominal categorical column"""
         return DataSchema(
-            numerical = {'age', 'income'},
-            unordered = {
+            continuous = {'age', 'income'},
+            nominal = {
                 'city': {'london', 'paris'},
             },
-            ordered={
+            ordinal={
                 'rating': ['low', 'medium', 'high'],
                 'position': ['intern', 'staff', 'executive']
             }
@@ -79,34 +79,34 @@ class TestDataSchema:
     def superset_schema(self):
         """A schema that is a superset of base_schema."""
         return DataSchema(
-            numerical={'age', 'income'},
-            unordered={'city': {'london', 'paris', 'tokyo'}}, # Extra category
-            ordered={'rating': ['low', 'medium', 'high', 'premium']} # Extra category
+            continuous={'age', 'income'},
+            nominal={'city': {'london', 'paris', 'tokyo'}}, # Extra category
+            ordinal={'rating': ['low', 'medium', 'high', 'premium']} # Extra category
         )
 
     @pytest.fixture
     def different_num_cols_schema(self):
         """A schema with different columns."""
         return DataSchema(
-            numerical={'age', 'height'}, # Different numerical col
-            unordered={'city': {'london', 'paris'}},
-            ordered={'rating': ['low', 'medium', 'high']}
+            continuous={'age', 'height'}, # Different continuous col
+            nominal={'city': {'london', 'paris'}},
+            ordinal={'rating': ['low', 'medium', 'high']}
         )
 
     @pytest.fixture
     def empty_schema(self):
         """An empty schema"""
         return DataSchema(
-            numerical = set(),
-            unordered = {},
-            ordered = {}
+            continuous = set(),
+            nominal = {},
+            ordinal = {}
         )
 
     def test_init(self, base_schema):
         # Happy
-        assert base_schema.numerical == {'age', 'income'}
-        assert base_schema.unordered == {'city': {'london', 'paris'}}
-        assert base_schema.ordered == {'rating': ['low', 'medium', 'high']}
+        assert base_schema.continuous == {'age', 'income'}
+        assert base_schema.nominal == {'city': {'london', 'paris'}}
+        assert base_schema.ordinal == {'rating': ['low', 'medium', 'high']}
 
     def test_eq(self, base_schema, equal_schema):
         # Happy
