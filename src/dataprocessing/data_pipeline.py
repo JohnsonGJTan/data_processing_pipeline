@@ -112,6 +112,7 @@ class DataPipeline:
             pipeline_schema = output.schema.copy()
             fitted_pipeline.append(DataPipe(process_str=output.process, params=output.params))
     
+        self.input_schema_ = input_schema.copy()
         self.pipeline_ = fitted_pipeline
         self.output_schema_ = pipeline_schema
         self._is_fitted = True
