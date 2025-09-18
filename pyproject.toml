@@ -1,0 +1,27 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "DataProcessignPipeline"
+version = "0.1.0"
+authors = [
+  { name="Johnson Tan", email="Johnson.GJ.Tan@gmail.com" },
+]
+description = "A robust and declarative data processing pipeline for Python."
+readme = "README.md"
+requires-python = ">=3.9"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+dependencies = [
+    "pandas",
+    "numpy",
+    "scikit-learn",
+    "joblib",
+]
+
+[tool.setuptools.packages.find]
+where = ["src"]
