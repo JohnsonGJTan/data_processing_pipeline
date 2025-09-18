@@ -1,0 +1,25 @@
+# Byte-compiled / optimized / C files
+__pycache__/
+*.pyc
+*.$py.class
+
+# Distribution / Installation
+dist/
+build/
+*.egg-info/
+
+# Virtual Environments
+venv/
+.venv/
+env/
+.env
+
+# Editor directories and files
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+
+# Testing
+.pytest_cache/
+htmlcov/
