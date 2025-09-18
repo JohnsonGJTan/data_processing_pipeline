@@ -1,48 +1,31 @@
-# dataprocessing: A Declarative Data Preprocessing Library
+# dataprocessing
 
-[![Python 3.9+](https://img.shields.io/badge/python-3.9+-blue.svg)](https://www.python.org/downloads/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-
-dataprocessing is a lightweight, intuitive Python library for building clear, reusable, and serializable data preprocessing pipelines for machine learning. It's designed to bring clarity and reproducibility to your feature engineering workflow by combining a declarative API with robust data schema management.
-
-## Key Features
-
-* **Declarative API:** Define your preprocessing steps as a simple list of operations and parameters.
-* **Schema-Aware:** Tracks changes to your data's structure (new columns, type changes) at every step.
-* **Scikit-learn Inspired:** Follows the familiar `fit`/`transform` paradigm, making it intuitive to use.
-* **Serializable:** Save your fitted pipeline to a file using `joblib` and load it back later for inference, ensuring consistency between training and production.
-* **JSON Configurable:** Define an entire pipeline structure in a JSON file for easy configuration management.
+A lightweight and intuitive Python library for building clear, reusable, and serializable data preprocessing pipelines for machine learning.
 
 ## Installation
 
+To get started, clone the repository and install the package in editable mode. This is recommended for local development.
+
 ```bash
-# Clone the repository and install locally in editable mode
-git clone [https://github.com/JohnsonGJTan/dataprocessing.git](https://github.com/JohnsonGJTan/dataprocessing.git)
-cd data_processing_pipeline
+git clone https://github.com/JohnsonGJTan/dataprocessing.git
+cd dataprocessing
 pip install -e .
 ```
 
-## Core Concepts
-
-* **`DataSchema`**: A metadata object that describes the structure of your DataFrame, tracking `continuous`, `nominal` (unordered), and `ordinal` (ordered) categorical columns.
-* **`DataPipe`**: A wrapper for a single processing step (e.g., `'num_impute'`) and its parameters (e.g., `{'col_name': 'age', 'method': 'median'}`).
-* **`DataPipeline`**: A sequence of `DataPipe` objects that can be fitted to training data and then used to transform new data.
-
 ## Quickstart
 
-Here's how to build, fit, transform, and save a pipeline.
+Below is a simple example of how to define a pipeline, fit it on training data, and use it to transform new, unseen data.
 
 ```python
 import pandas as pd
 from dataprocessing import DataPipe, DataPipeline
 
-# 1. Sample Data
+# 1. Define Sample Data
 train_data = pd.DataFrame({
     'age': [25, 30, None, 45, 25],
     'city': ['New York', 'London', 'London', 'Tokyo', 'New York'],
     'rating': ['low', 'medium', 'low', 'high', 'medium']
 })
-# Convert columns to appropriate categorical dtypes
 train_data['city'] = train_data['city'].astype('category')
 train_data['rating'] = pd.Categorical(train_data['rating'], categories=['low', 'medium', 'high'], ordered=True)
 
@@ -61,45 +44,28 @@ pipeline_steps = [
     DataPipe('ordinal_encode', {'col_names': ['rating'], 'orders': [['low', 'medium', 'high']]})
 ]
 
-# 3. Create and Fit the Pipeline
+# 3. Create, Fit, and Transform
 pipeline = DataPipeline(pipeline=pipeline_steps)
 pipeline.fit(train_data)
-
-# 4. Transform New Data
 transformed_data = pipeline.transform(test_data)
 
 print("--- Transformed Test Data ---")
 print(transformed_data)
+#    age  rating  city_London  city_New York  city_Tokyo
+# 0 60.0     2.0          0.0            0.0         0.0
+# 1 30.0     0.0          1.0            0.0         0.0
+# 2 35.0     1.0          0.0            1.0         0.0
 
-# 5. Save and Load the Fitted Pipeline
+
+# 4. Save and Load for Later Use
 pipeline.save('my_fitted_pipeline.joblib')
 loaded_pipeline = DataPipeline.load('my_fitted_pipeline.joblib')
 
-# Use the loaded pipeline for inference
-new_data = pd.DataFrame({'age': [22], 'city': ['London'], 'rating': ['medium']})
-new_data['city'] = new_data['city'].astype('category')
-new_data['rating'] = pd.Categorical(new_data['rating'], categories=['low', 'medium', 'high'], ordered=True)
-
-prediction_ready_data = loaded_pipeline.transform(new_data)
 print("\n--- Prediction Ready Data ---")
+prediction_ready_data = loaded_pipeline.transform(
+    pd.DataFrame({'age': [22], 'city': ['London'], 'rating': ['medium']})
+)
 print(prediction_ready_data)
+#    age  rating  city_London  city_New York  city_Tokyo
+# 0 22.0     1.0          1.0            0.0         0.0
 ```
-## Available steps
-
-| Process String | Description                                                 |
-|----------------|-------------------------------------------------------------|
-| `drop_col`       | Drops a specified column.                                   |
-| `append_na_mask` | Adds a binary column indicating missing values.             |
-| `num_impute`     | Imputes missing numerical data (e.g., with median).         |
-| `cat_impute`     | Imputes missing categorical data (e.g., with mode).         |
-| `outliers`       | Handles outliers by clipping and/or adding an outlier mask. |
-| `one_hot_encode` | Applies one-hot encoding to categorical columns.            |
-| `ordinal_encode` | Applies ordinal encoding to ordered categorical columns.    |
-| `target_encode`  | Applies target encoding.                                    |
-| `label_encode`   | Applies label encoding (typically for a target variable).   |
-| `cat_group`      | Groups multiple categories into new ones using a map.       |
-| `num_bin`        | Bins a numerical column into ordered categories.            |
-
-## License
-
-This project is licensed under MIT License
