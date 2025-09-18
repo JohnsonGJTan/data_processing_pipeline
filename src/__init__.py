@@ -1,2 +1,2 @@
-from .DataProcessingPipeline.data_schema import DataSchema
-from .DataProcessingPipeline.data_pipeline import DataPipe, DataPipeline
+from .dataprocessingpipeline.data_schema import DataSchema
+from .dataprocessingpipeline.data_pipeline import DataPipe, DataPipeline
