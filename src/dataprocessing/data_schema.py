@@ -121,6 +121,18 @@ class DataSchema:
         
         return cls(continuous, nominal, ordinal)
 
+    def get_type(self, col_name: str):
+
+        if col_name not in self.columns:
+            raise ValueError(f"'{col_name}' not in schema.")
+        
+        if col_name in self.continuous:
+            return 'continuous'
+        elif col_name in self.nominal:
+            return 'nominal'
+        elif col_name in self.ordinal:
+            return 'ordinal'
+
     def copy(self) -> Self:
 
         return self.__class__(
